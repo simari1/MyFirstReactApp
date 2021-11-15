@@ -5,8 +5,8 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Axios from "axios";
 Axios.defaults.baseURL = "http://localhost:8080";
 
-import StateContext from "./StateContext";
-import DispatchContext from "./DispatchContext";
+import StateContext from "./components/context/StateContext";
+import DispatchContext from "./components/context/DispatchContext";
 
 // My Components
 import Header from "./components/common/Header";

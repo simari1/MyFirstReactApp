@@ -2,10 +2,11 @@ import React, { useEffect, useContext, useState } from "react";
 import Page from "./common/Page";
 import { useParams } from "react-router-dom";
 import Axios from "axios";
-import StateContext from "../StateContext";
+import StateContext from "./context/StateContext";
 import ProfilePosts from "./ProfilePosts";
 
 function Profile() {
+  const cancelRequest = Axios.CancelToken.source();
   const { username } = useParams();
   const appState = useContext(StateContext);
   const [profileData, setProfileData] = useState({
@@ -20,12 +21,15 @@ function Profile() {
       try {
         const response = await Axios.post(`/profile/${username}`, {
           token: appState.user.token,
-        });
+        }, { cancelToken: cancelRequest.token });
         setProfileData(response.data);
       } catch (error) {
         console.log(error);
       }
     })();
+    return () => {
+      cancelRequest.cancel();
+    }
   }, []);
 
   return (
